@@ -50,7 +50,7 @@
               </v-btn>
             </template>
             <v-list dense>
-              <v-list-item @click.stop="editItem(item)">
+              <!-- <v-list-item @click.stop="editItem(item)">
                 <v-list-item-content>
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
@@ -59,7 +59,7 @@
                 <v-list-item-content>
                   <v-list-item-title>Delete</v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
               <v-list-item @click.stop="viewSubject(item)">
                 <v-list-item-content>
                   <v-list-item-title>View Subjects</v-list-item-title>

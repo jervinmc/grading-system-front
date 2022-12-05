@@ -52,7 +52,7 @@
     </v-row>
     <div>
       <v-card class="pa-16" elevation="1" color="white">
-        <v-row>
+        <!-- <v-row>
           <v-col cols="auto" class="pa-0">
             <v-btn
               color="primary"
@@ -74,14 +74,14 @@
             >
           </v-col>
           <v-spacer></v-spacer>
-        </v-row>
+        </v-row> -->
         <div class="pt-10">
           <v-text-field
             hide-details
             v-model="search"
             outlined
             dense
-            placeholder="Search Request No."
+            placeholder="Search"
           ></v-text-field>
         </div>
         <div v-if="status != 'Final Grade'">
@@ -186,9 +186,9 @@
               </v-menu>
             </template>
           </v-data-table>
-          <div>
+          <!-- <div>
             <div align="end">Average : {{ status=='Activity' ? totalActivity.toFixed(2) :  totalExam.toFixed(2) }}</div>
-          </div>
+          </div> -->
         </div>
         <v-card v-else>
           <div class="text-h5 pa-13" align="center">Final Grade</div>
@@ -275,6 +275,7 @@ export default {
   },
   data() {
     return {
+      search:'',
       status: "Activity",
       register: {
         user_id: this.$route.query.id,
@@ -324,6 +325,7 @@ export default {
     let x = {
     //   user_id: this.$route.query.user_id,
       subject_id: this.$route.query.id,
+      kinder_level: localStorage.getItem('kinder_level')
     };
     this.$store.dispatch("grades/viewAll", x);
     this.$store.dispatch("subject/view");
