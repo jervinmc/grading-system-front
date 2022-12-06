@@ -1,5 +1,6 @@
 const actions = {
     async add({ commit },  data ) {
+      data.quarter = localStorage.getItem('quarter')
       const response = await this.$axios.$post(
         "/grades/",
         data
@@ -21,6 +22,7 @@ const actions = {
         commit("SET_EVENT", response);
       },
       async viewAll({ commit }, data) {
+        data.quarter = localStorage.getItem('quarter')
         const response = await this.$axios.$post(
           "/grades-subject-all/",
           data

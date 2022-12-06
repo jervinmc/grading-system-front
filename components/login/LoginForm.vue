@@ -96,6 +96,7 @@ export default {
         const response = await this.$auth.loginWith("local", {
           data: this.users,
         });
+        localStorage.setItem('quarter','1st quarter')
         localStorage.setItem('kinder_level',1)
       } catch (error) {
         alert('Wrong credentials')

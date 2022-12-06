@@ -15,7 +15,7 @@
               dense
               outlined
               v-model="register.score"
-              :items="['5', '4', '3', '2', '1']"
+              :items="['4', '3', '2', '1']"
             >
             </v-select>
           </div>
@@ -42,11 +42,11 @@
               <b>Subject: {{ $route.query.subject }}</b>
             </div>
           </v-col>
-          <v-col align="end" v-if="status != 'Final Grade'">
+          <!-- <v-col align="end" v-if="status != 'Final Grade'">
             <v-btn outlined @click="isAdd = true" color="primary"
               >Add Score</v-btn
             >
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-col>
     </v-row>
@@ -105,7 +105,7 @@
               {{ item.is_active ? "Yes" : "No" }}
             </template>
             <template #[`item.average`]="{ item }">
-              {{(item.total_activity + item.total_exam /2).toFixed(2) }}
+              {{((item.total_activity + item.total_exam) /2).toFixed(2) }}
             </template>
             <template #[`item.total_activity`]="{ item }">
                  {{item.total_activity.toFixed(2) }}
@@ -238,7 +238,9 @@ export default {
   computed: {
     ...mapState("enrolled", ["enrolled_data"]),
     ...mapState("grades", ["grade_data"]),
-
+    // filterGrade(){
+    //   return this.grade_data.filter(data=>data.quarter==localStorage.getItem('quarter'));
+    // },
     totalActivity() {
       let x = 0;
       this.grade_data.map((data) => {
@@ -325,7 +327,8 @@ export default {
     let x = {
     //   user_id: this.$route.query.user_id,
       subject_id: this.$route.query.id,
-      kinder_level: localStorage.getItem('kinder_level')
+      kinder_level: localStorage.getItem('kinder_level'),
+      quarter: localStorage.getItem('quarter')
     };
     this.$store.dispatch("grades/viewAll", x);
     this.$store.dispatch("subject/view");

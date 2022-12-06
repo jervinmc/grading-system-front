@@ -89,6 +89,9 @@ export default {
   components: { Add, Edit },
   computed: {
     ...mapState("subject", ["subject_data"]),
+    // filteredGrade(){
+    //   return subject_data.filter(data=>data.quarter==localStorage.getItem('quarter'))
+    // }
   },
   data() {
     return {

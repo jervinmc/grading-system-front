@@ -15,7 +15,7 @@
               dense
               outlined
               v-model="register.score"
-              :items="['5', '4', '3', '2', '1']"
+              :items="['4', '3', '2', '1']"
             >
             </v-select>
           </div>
@@ -76,13 +76,13 @@
           <v-spacer></v-spacer>
         </v-row>
         <div class="pt-10">
-          <v-text-field
+          <!-- <v-text-field
             hide-details
             v-model="search"
             outlined
             dense
             placeholder="Search Request No."
-          ></v-text-field>
+          ></v-text-field> -->
         </div>
         <div v-if="status != 'Final Grade'">
           <v-data-table
@@ -202,20 +202,47 @@
           <v-row>
             <v-col v-if="status == 'Activity'">
               Recommendation:
-              <div class="red--text" v-if="totalActivity < 3">
-                You need to get a passing grade activities.
+              <div class="green--text" v-if="totalActivity > 3">
+                Mastered! X-Studentname has demonstrated exceptional performance. They are recommended to participate in enrichment programs to further improve their skills.
+              </div>
+               <div class="green--text" v-else-if="totalActivity > 2">
+                Approaching Mastery. Student has shown competitive performance regarding curricular activities. It is advised to let them participate in extracurricular activities to display competitiveness.
+              </div>
+               <div class="orange--text" v-else-if="totalActivity > 1.5">
+                Beginning. Struggling in studies or lack of focus. Advised to retake activities and improve study habits.
+              </div>
+              <div class="red--text" v-else>
+                Not observed. Student has not participated in any activities. Advice to meet the parents for consultation regarding the student's performance.
               </div>
             </v-col>
             <v-col v-else-if="status == 'Exam'">
               Recommendation:
-              <div class="red--text" v-if="totalExam < 3">
-                You need to get a passing grade activities.
+              <div class="green--text" v-if="totalExam >= 3.5">
+                Mastered! X-Studentname has demonstrated exceptional performance. They are recommended to participate in enrichment programs to further improve their skills.
+              </div>
+               <div class="green--text" v-else-if="totalExam > 2">
+                Approaching Mastery. Student has shown competitive performance regarding curricular activities. It is advised to let them participate in extracurricular activities to display competitiveness.
+              </div>
+               <div class="orange--text" v-else-if="totalExam > 1.5">
+                Beginning. Struggling in studies or lack of focus. Advised to retake activities and improve study habits.
+              </div>
+              <div class="red--text" v-else>
+                Not observed. Student has not participated in any activities. Advice to meet the parents for consultation regarding the student's performance.
               </div>
             </v-col>
             <v-col v-else>
               Recommendation:
-              <div class="red--text" v-if="finalGrade < 3">
-                You need to get a passing grade activities.
+               <div class="green--text" v-if="finalGrade >= 3.5">
+                Mastered! X-Studentname has demonstrated exceptional performance. They are recommended to participate in enrichment programs to further improve their skills.
+              </div>
+               <div class="green--text" v-else-if="finalGrade >= 2.5">
+                Approaching Mastery. Student has shown competitive performance regarding curricular activities. It is advised to let them participate in extracurricular activities to display competitiveness.
+              </div>
+               <div class="orange--text" v-else-if="finalGrade > 1.5">
+                Beginning. Struggling in studies or lack of focus. Advised to retake activities and improve study habits.
+              </div>
+              <div class="red--text" v-else>
+                Not observed. Student has not participated in any activities. Advice to meet the parents for consultation regarding the student's performance.
               </div>
             </v-col>
           </v-row>
@@ -235,33 +262,36 @@ export default {
 
     totalActivity() {
       let x = 0;
-      this.grade_data.map((data) => {
+      this.filteredGrade.map((data) => {
         if (data.grade_type == "Activity") {
           x = x + parseInt(data.score);
         }
       });
-      let activity_data = this.grade_data.filter(
+      let activity_data = this.filteredGrade.filter(
         (data) => data.grade_type == "Activity"
       );
       return x / activity_data.length;
     },
+    filteredGrade(){
+      return this.grade_data.filter(data=>data.quarter==localStorage.getItem('quarter'))
+    },
     totalExam() {
       let x = 0;
-      this.grade_data.map((data) => {
+      this.filteredGrade.map((data) => {
         if (data.grade_type == "Exam") {
           x = x + parseInt(data.score);
         }
       });
-      let exam_data = this.grade_data.filter(
+      let exam_data = this.filteredGrade.filter(
         (data) => data.grade_type == "Exam"
       );
       return x / exam_data.length;
     },
     activityItem() {
-      return this.grade_data.filter((data) => data.grade_type == "Activity");
+      return this.filteredGrade.filter((data) => data.grade_type == "Activity");
     },
     examItem() {
-      return this.grade_data.filter((data) => data.grade_type == "Exam");
+      return this.filteredGrade.filter((data) => data.grade_type == "Exam");
     },
     finalGrade() {
       return (this.totalActivity + this.totalExam) / 2;
@@ -295,6 +325,7 @@ export default {
     async submitHandler() {
       try {
         this.register.grade_type = this.status;
+        this.register.quarter = localStorage.getItem('quarter')
         await this.$store.dispatch("grades/add", this.register);
         alert("Successfully Added!");
         this.isAdd = false;

@@ -115,6 +115,9 @@
         </v-btn>
       </div>
       <div class="px-10 pointer"  v-if="$auth.loggedIn">
+        <v-select class="pt-8" :items="['1st quarter','2nd quarter']" v-model="register.quarter" outlined @change="changeQuarter"></v-select>
+      </div>
+      <div class="px-10 pointer"  v-if="$auth.loggedIn">
         <v-btn dark depressed color="secondary" @click="$auth.logout()">
           Logout
         </v-btn>
@@ -141,6 +144,10 @@
 <script>
 export default {
   methods: {
+    changeQuarter(){
+      localStorage.setItem('quarter',this.register.quarter)
+          location.reload()
+    },
     selectLevel(no){
       localStorage.setItem('kinder_level',no)
       location.reload()
@@ -153,8 +160,13 @@ export default {
     },
   },
   name: "DefaultLayout",
+  created(){
+    this.register.quarter = localStorage.getItem('quarter')
+    // this.$store.dispatch('settings/add',{"quarter":"1st quarter"})
+  },
   data() {
     return {
+      register:{},
       clipped: false,
       drawer: true,
       fixed: false,
