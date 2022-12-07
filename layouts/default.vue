@@ -115,7 +115,7 @@
         </v-btn>
       </div>
       <div class="px-10 pointer"  v-if="$auth.loggedIn">
-        <v-select class="pt-8" :items="['1st quarter','2nd quarter']" v-model="register.quarter" outlined @change="changeQuarter"></v-select>
+        <v-select class="pt-8" :items="['1st quarter','2nd quarter','3rd quarter','4th quarter']" v-model="register.quarter" outlined @change="changeQuarter"></v-select>
       </div>
       <div class="px-10 pointer"  v-if="$auth.loggedIn">
         <v-btn dark depressed color="secondary" @click="$auth.logout()">
