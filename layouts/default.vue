@@ -49,7 +49,7 @@
       <div align="start">
         <v-img
           class="pointer"
-          src="/logo.jpeg"
+          src="/logo.png"
           height="50"
           width="100"
           contain
